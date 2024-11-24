@@ -1,5 +1,10 @@
+import { useContext } from "react";
+import { ToDoItemsContext } from "../store/todoitems-store";
 import ToDoItem from "./ToDoItem";
-const ToDoItems = ({ todoitems, onDeleteClick }) => {
+const ToDoItems = () => {
+  const { todoitems } = useContext(ToDoItemsContext);
+  const { deleteItem } = useContext(ToDoItemsContext);
+
   return (
     <>
       {todoitems.map((items) => (
@@ -7,7 +12,7 @@ const ToDoItems = ({ todoitems, onDeleteClick }) => {
           todoname={items.name}
           date={items.date}
           key={items.name}
-          onDelete={onDeleteClick}
+          onDelete={deleteItem}
         />
       ))}
     </>

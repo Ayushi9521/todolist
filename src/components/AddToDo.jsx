@@ -1,47 +1,53 @@
-import { useState } from "react";
+import { useContext } from "react";
+import { useRef } from "react";
+import { ToDoItemsContext } from "../store/todoitems-store";
+import { IoMdAddCircleOutline } from "react-icons/io";
+function AddToDo() {
+  // let [todoname, setTodoname] = useState("");
+  // let [date, setDate] = useState("");
 
-function AddToDo({ AddItem }) {
-  let [todoname, setTodoname] = useState("");
-  let [date, setDate] = useState("");
+  // function handleName(e) {
+  //   let name = e.target.value;
+  //   setTodoname(name);
+  // }
 
-  function handleName(e) {
-    let name = e.target.value;
-    setTodoname(name);
-  }
+  // function handleDate(e) {
+  //   let date = e.target.value;
+  //   setDate(date);
+  // }
 
-  function handleDate(e) {
-    let date = e.target.value;
-    setDate(date);
-  }
-  function handleAdd() {
-    AddItem(todoname, date);
-    setTodoname("");
-    setDate("");
+  const todonameElement = useRef();
+  const tododateElement = useRef();
+  const { addNewItem } = useContext(ToDoItemsContext);
+  function handleAdd(e) {
+    e.preventDefault();
+    const todoname = todonameElement.current.value;
+    const date = tododateElement.current.value;
+    todonameElement.current.value = "";
+    tododateElement.current.value = "";
+    addNewItem(todoname, date);
   }
   return (
     <div className="container">
-      <div className="row kg-row">
-        <div className="col-6">
-          <input
-            type="text"
-            placeholder="Enter Todo here"
-            onChange={handleName}
-            value={todoname}
-          />
+      <form onSubmit={handleAdd}>
+        <div className="row kg-row">
+          <div className="col-6">
+            <input
+              type="text"
+              placeholder="Enter Todo here"
+              ref={todonameElement}
+            />
+          </div>
+          <div className="col-4">
+            <input type="date" ref={tododateElement} />
+          </div>
+          <div className="col-2">
+            <button className="btn btn-success kg-button">
+              <IoMdAddCircleOutline /> Add
+            </button>
+          </div>
         </div>
-        <div className="col-4">
-          <input type="date" onChange={handleDate} value={date} />
-        </div>
-        <div className="col-2">
-          <button
-            type="button"
-            className="btn btn-success kg-button"
-            onClick={handleAdd}
-          >
-            Add
-          </button>
-        </div>
-      </div>
+      </form>
     </div>
   );
 }
